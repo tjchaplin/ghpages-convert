@@ -2,7 +2,20 @@
   "name": "ghpages-convert",
   "version": "0.1.0",
   "description": "A command line tool to convert github page templates to blogs",
-  "main": "bin/ghpages-convert",
+  "homepage": "https://github.com/tjchaplin/ghpages-convert",
+  "author": {
+    "name": "tjchaplin",
+    "email": "tjchaplin@hotmail.com",
+    "url": "http://tjchaplin.github.io/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/tjchaplin/ghpages-convert.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tjchaplin/ghpages-convert/issues"
+  },
+  "bin": "bin/ghpages-convert",
   "scripts": {
     "test": "mocha --report spec tests/*"
   },
