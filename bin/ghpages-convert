@@ -5,12 +5,21 @@ var path = require('path');
 var assert = require('assert');
 var prompt = require('prompt');
 var program = require('commander');
+var scarlet = new (require('scarlet'))();
+var version = require('../package.json').version;
 var githubTemplateConverter = require('../lib/githubTemplateConverter');
 
+
+scarlet.intercept(githubTemplateConverter,'convert')
+		.on('before',function(invocation){console.log("About to convert the github template...")})
+		.on('after',function(invocation){console.log("Completed Converting")});
+
+
 program
-	.version('0.0.0')
+	.version(version)
 	.usage('<indexFileToConvert>')
 	.parse(process.argv);
+
 prompt.message ='';
 prompt.start();
 
@@ -26,7 +35,6 @@ prompt.get(property, function(err, result) {
 	if(result.yesno.toLowerCase() !== 'y' && result.yesno.toLowerCase() !== 'yes' && result.yesno.toLowerCase() !== '')
 		return;
 
-	console.log("Converting Github Template Page To A Blog");
 	var indexFileToConvert = program.convert;
 
 	if(!(indexFileToConvert instanceof String))
@@ -36,8 +44,7 @@ prompt.get(property, function(err, result) {
 	githubTemplateConverter.convert(indexFileToConvert);
 });
 
-
-function createDirectories(baseDirectory){
+var createDirectories = function(baseDirectory){
 
 	assert(baseDirectory,'baseDirectory === null');
 
@@ -46,3 +53,4 @@ function createDirectories(baseDirectory){
 	fs.mkdir(baseDirectory+'/_assets');
 	fs.mkdir(baseDirectory+'/_includes');
 }
+

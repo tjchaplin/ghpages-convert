@@ -27,7 +27,8 @@
   "dependencies": {
     "commander": "~2.0.0",
     "prompt": "~0.2.11",
-    "cheerio": "~0.12.1"
+    "cheerio": "~0.12.1",
+    "scarlet": "~0.5.3"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
