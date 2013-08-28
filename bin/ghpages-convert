@@ -1,0 +1,48 @@
+#!/usr/bin/env node
+
+var fs = require('fs');
+var path = require('path');
+var assert = require('assert');
+var prompt = require('prompt');
+var program = require('commander');
+var githubTemplateConverter = require('../lib/githubTemplateConverter');
+
+program
+	.version('0.0.0')
+	.usage('<indexFileToConvert>')
+	.parse(process.argv);
+prompt.message ='';
+prompt.start();
+
+var property = {
+  name: 'yesno',
+  message: 'Are you sure you want to write to the current directory?',
+  validator: /y[es]*|n[o]?/,
+  warning: 'Must respond yes or no',
+  default: 'yes'
+};
+
+prompt.get(property, function(err, result) {
+	if(result.yesno.toLowerCase() !== 'y' && result.yesno.toLowerCase() !== 'yes' && result.yesno.toLowerCase() !== '')
+		return;
+
+	console.log("Converting Github Template Page To A Blog");
+	var indexFileToConvert = program.convert;
+
+	if(!(indexFileToConvert instanceof String))
+		indexFileToConvert = './index.html';
+
+	createDirectories(path.dirname(indexFileToConvert));
+	githubTemplateConverter.convert(indexFileToConvert);
+});
+
+
+function createDirectories(baseDirectory){
+
+	assert(baseDirectory,'baseDirectory === null');
+
+	fs.mkdir(baseDirectory+'/_posts');
+	fs.mkdir(baseDirectory+'/_layouts');
+	fs.mkdir(baseDirectory+'/_assets');
+	fs.mkdir(baseDirectory+'/_includes');
+}
