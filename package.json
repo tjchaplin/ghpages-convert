@@ -1,6 +1,6 @@
 {
   "name": "ghpages-convert",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A command line tool to convert github page templates to blogs",
   "homepage": "https://github.com/tjchaplin/ghpages-convert",
   "author": "Tim Chaplin",
