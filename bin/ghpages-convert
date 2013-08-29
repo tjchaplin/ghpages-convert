@@ -5,14 +5,14 @@ var path = require('path');
 var assert = require('assert');
 var prompt = require('prompt');
 var program = require('commander');
-var scarlet = new (require('scarlet'))();
+var scarletWinston = require('scarlet-winston');
 var version = require('../package.json').version;
 var githubTemplateConverter = require('../lib/githubTemplateConverter');
 
-
-scarlet.intercept(githubTemplateConverter,'convert')
-		.on('before',function(invocation){console.log("About to convert the github template...")})
-		.on('after',function(invocation){console.log("Completed Converting")});
+scarletWinston.intercept(githubTemplateConverter,'convert')
+		.on('before',function(invocation){scarletWinston.info("About to convert the github template...")})
+		.on('after',function(invocation){scarletWinston.info("Completed Converting")})
+		.on('error',function(error){scarletWinston.error("Error Converting template:"+error.message);});
 
 
 program
