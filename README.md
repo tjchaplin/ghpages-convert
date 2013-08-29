@@ -3,7 +3,7 @@ ghpages-convert
 
 A command line tool to convert github page templates to blogs
 
-[![Build Status](https://travis-ci.org/tjchaplin/ghpages-convert.png?branch=0.0.24)](https://travis-ci.org/tjchaplin/ghpages-convert)
+[![Build Status](https://travis-ci.org/tjchaplin/ghpages-convert.png?branch=master)](https://travis-ci.org/tjchaplin/ghpages-convert)
 
 ## Installation
 ```
