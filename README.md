@@ -6,8 +6,11 @@ A command line tool to convert github page templates to blogs
 [![Build Status](https://travis-ci.org/tjchaplin/ghpages-convert.png?branch=master)](https://travis-ci.org/tjchaplin/ghpages-convert)
 
 ## Installation
+
+Install globally so that the executible is available on the command line
+
 ```
-npm install scarlet
+npm install ghpages-convert -g
 ```
 
 ## Convert
@@ -47,7 +50,6 @@ I have also provided a brief summary of all the instructions:
 1. In a repository, select Settings --> Automatic Page Generator
 2. Follow the instructions and pick a template that best fits
 3. Once the Automatic Page Generator is complete, your page will be available
-3.1 Example Url: [tjchaplin.github.io/ghpages-convert/](tjchaplin.github.io/ghpages-convert/)
 4. clone your repository to your machine
 
 ```
