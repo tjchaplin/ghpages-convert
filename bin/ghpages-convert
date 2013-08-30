@@ -9,10 +9,15 @@ var scarletWinston = require('scarlet-winston');
 var version = require('../package.json').version;
 var githubTemplateConverter = require('../lib/githubTemplateConverter');
 
-scarletWinston.intercept(githubTemplateConverter,'convert')
-		.on('before',function(invocation){scarletWinston.info("About to convert the github template...")})
-		.on('after',function(invocation){scarletWinston.info("Completed Converting")})
-		.on('error',function(error){scarletWinston.error("Error Converting template:"+error.message);});
+var createDirectories = function(baseDirectory){
+
+	assert(baseDirectory,'baseDirectory === null');
+
+	fs.mkdir(baseDirectory+'/_posts');
+	fs.mkdir(baseDirectory+'/_layouts');
+	fs.mkdir(baseDirectory+'/_assets');
+	fs.mkdir(baseDirectory+'/_includes');
+}
 
 
 program
@@ -35,22 +40,40 @@ prompt.get(property, function(err, result) {
 	if(result.yesno.toLowerCase() !== 'y' && result.yesno.toLowerCase() !== 'yes' && result.yesno.toLowerCase() !== '')
 		return;
 
-	var indexFileToConvert = program.convert;
+	enableVerboseOutput();
 
-	if(!(indexFileToConvert instanceof String))
-		indexFileToConvert = './index.html';
+	var indexFileToConvert = './index.html';
+
+	if(program.args.length === 1){
+		indexFileToConvert = program.args[0];
+		if(indexFileToConvert.indexOf("html") < 0){
+			scarletWinston.log("error","type of file must be html");	
+			return;
+		}
+	}
+	if(program.args.length > 1){
+		scarletWinston.log("error","Only expected one argument but found:"+program.args.length);
+		return;
+	}
+
+	scarletWinston.info("Parsing: "+indexFileToConvert);
 
 	createDirectories(path.dirname(indexFileToConvert));
 	githubTemplateConverter.convert(indexFileToConvert);
 });
 
-var createDirectories = function(baseDirectory){
+var enableVerboseOutput = function(){
 
-	assert(baseDirectory,'baseDirectory === null');
+	scarletWinston.intercept(githubTemplateConverter,'convert')
+			.on('before',function(invocation){scarletWinston.info("About to convert the github template...")})
+			.on('after',function(invocation){scarletWinston.info("Completed Converting")})
+			.on('error',function(error){scarletWinston.log("error","Error Converting template:"+error.message);});
 
-	fs.mkdir(baseDirectory+'/_posts');
-	fs.mkdir(baseDirectory+'/_layouts');
-	fs.mkdir(baseDirectory+'/_assets');
-	fs.mkdir(baseDirectory+'/_includes');
-}
+	createDirectories=scarletWinston.intercept(createDirectories)
+						.on('before',function(invocation){scarletWinston.info("About to create directories...")})
+						.on('after',function(invocation){scarletWinston.info("Completed Creating all directories")})
+						.on('error',function(error){scarletWinston.log("error","Error Creating directories:"+error.message);})
+						.resolve();
+};
+
 

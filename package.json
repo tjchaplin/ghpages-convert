@@ -28,7 +28,7 @@
     "commander": "~2.0.0",
     "prompt": "~0.2.11",
     "cheerio": "~0.12.1",
-    "scarlet-winston": "0.0.5"
+    "scarlet-winston": "~0.0.5"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
