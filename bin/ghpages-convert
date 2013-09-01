@@ -5,7 +5,9 @@ var path = require('path');
 var assert = require('assert');
 var prompt = require('prompt');
 var program = require('commander');
-var scarletWinston = require('scarlet-winston');
+var Scarlet = require('scarlet');
+var scarlet = new Scarlet('scarlet-winston');
+var scarletWinston = scarlet.plugins.winston;
 var version = require('../package.json').version;
 var githubTemplateConverter = require('../lib/githubTemplateConverter');
 
@@ -64,12 +66,12 @@ prompt.get(property, function(err, result) {
 
 var enableVerboseOutput = function(){
 
-	scarletWinston.intercept(githubTemplateConverter,'convert')
+	scarlet.intercept(githubTemplateConverter,'convert')
 			.on('before',function(invocation){scarletWinston.info("About to convert the github template...")})
 			.on('after',function(invocation){scarletWinston.info("Completed Converting")})
 			.on('error',function(error){scarletWinston.log("error","Error Converting template:"+error.message);});
 
-	createDirectories=scarletWinston.intercept(createDirectories)
+	createDirectories=scarlet.intercept(createDirectories)
 						.on('before',function(invocation){scarletWinston.info("About to create directories...")})
 						.on('after',function(invocation){scarletWinston.info("Completed Creating all directories")})
 						.on('error',function(error){scarletWinston.log("error","Error Creating directories:"+error.message);})
